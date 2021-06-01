@@ -142,6 +142,7 @@ public final class HibernateOrmProcessor {
     private static final Logger LOG = Logger.getLogger(HibernateOrmProcessor.class);
 
     private static final String INTEGRATOR_SERVICE_FILE = "META-INF/services/org.hibernate.integrator.spi.Integrator";
+    private static final String USE_JDBC_METADATA_DEFAULTS = "hibernate.temp.use_jdbc_metadata_defaults";
 
     @BuildStep
     void checkTransactionsSupport(Capabilities capabilities) {
@@ -993,6 +994,11 @@ public final class HibernateOrmProcessor {
         if (isMySQLOrMariaDB(dialect.get()) && persistenceUnitConfig.dialect.storageEngine.isPresent()) {
             storageEngineCollector.add(persistenceUnitConfig.dialect.storageEngine.get());
         }
+
+        // JDBC Metadata
+        persistenceUnitConfig.useJdbcMetadataDefaults.ifPresent(
+                useJdbcMetadataDefaults -> descriptor.getProperties().setProperty(USE_JDBC_METADATA_DEFAULTS,
+                        useJdbcMetadataDefaults.toString()));
 
         persistenceUnitDescriptors.produce(
                 new PersistenceUnitDescriptorBuildItem(descriptor, dataSource,
