@@ -3,10 +3,7 @@ package io.quarkus.hibernate.orm.deployment;
 import static io.quarkus.deployment.annotations.ExecutionTime.RUNTIME_INIT;
 import static io.quarkus.deployment.annotations.ExecutionTime.STATIC_INIT;
 import static io.quarkus.hibernate.orm.deployment.HibernateConfigUtil.firstPresent;
-import static org.hibernate.cfg.AvailableSettings.JPA_SHARED_CACHE_MODE;
-import static org.hibernate.cfg.AvailableSettings.USE_DIRECT_REFERENCE_CACHE_ENTRIES;
-import static org.hibernate.cfg.AvailableSettings.USE_QUERY_CACHE;
-import static org.hibernate.cfg.AvailableSettings.USE_SECOND_LEVEL_CACHE;
+import static org.hibernate.cfg.AvailableSettings.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -993,6 +990,10 @@ public final class HibernateOrmProcessor {
         if (isMySQLOrMariaDB(dialect.get()) && persistenceUnitConfig.dialect.storageEngine.isPresent()) {
             storageEngineCollector.add(persistenceUnitConfig.dialect.storageEngine.get());
         }
+
+        // Discriminator Column
+        descriptor.getProperties().setProperty(AvailableSettings.IGNORE_EXPLICIT_DISCRIMINATOR_COLUMNS_FOR_JOINED_SUBCLASS,
+                String.valueOf(persistenceUnitConfig.discriminator.ignoreExplicitForJoined));
 
         persistenceUnitDescriptors.produce(
                 new PersistenceUnitDescriptorBuildItem(descriptor, dataSource,
