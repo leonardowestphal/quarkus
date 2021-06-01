@@ -232,7 +232,7 @@ public class HibernateOrmConfigPersistenceUnit {
                 multitenantSchemaDatasource.isPresent() ||
                 fetch.isAnyPropertySet() ||
                 !useJdbcMetadataDefaults.get() ||
-		discriminator.isAnyPropertySet();
+                discriminator.isAnyPropertySet();
     }
 
     @ConfigGroup
