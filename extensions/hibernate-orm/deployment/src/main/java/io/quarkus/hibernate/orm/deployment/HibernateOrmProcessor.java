@@ -1000,6 +1000,12 @@ public final class HibernateOrmProcessor {
                 useJdbcMetadataDefaults -> descriptor.getProperties().setProperty(USE_JDBC_METADATA_DEFAULTS,
                         useJdbcMetadataDefaults.toString()));
 
+	// Discriminator Column
+        persistenceUnitConfig.discriminator.ignoreExplicitForJoined.ifPresent(
+                ignoreExplicitForJoined -> descriptor.getProperties().setProperty(
+                        AvailableSettings.IGNORE_EXPLICIT_DISCRIMINATOR_COLUMNS_FOR_JOINED_SUBCLASS,
+                        ignoreExplicitForJoined.toString()));	
+
         persistenceUnitDescriptors.produce(
                 new PersistenceUnitDescriptorBuildItem(descriptor, dataSource,
                         getMultiTenancyStrategy(persistenceUnitConfig.multitenant),
