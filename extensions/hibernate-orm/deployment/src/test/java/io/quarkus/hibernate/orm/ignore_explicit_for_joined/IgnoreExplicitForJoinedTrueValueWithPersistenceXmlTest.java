@@ -4,17 +4,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Map;
 
+import javax.enterprise.context.control.ActivateRequestContext;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
-import io.quarkus.arc.Arc;
 import io.quarkus.hibernate.orm.xml.persistence.MyEntity;
 import io.quarkus.test.QuarkusUnitTest;
 
@@ -31,11 +29,7 @@ public class IgnoreExplicitForJoinedTrueValueWithPersistenceXmlTest {
     @Inject
     EntityManager em;
 
-    @BeforeEach
-    public void activateRequestContext() {
-        Arc.container().requestContext().activate();
-    }
-
+    @ActivateRequestContext
     @Test
     public void testTrueValue() {
         Map<String, Object> properties = em.getEntityManagerFactory().getProperties();
@@ -44,10 +38,4 @@ public class IgnoreExplicitForJoinedTrueValueWithPersistenceXmlTest {
         assertEquals("templatePU", properties.get("hibernate.ejb.persistenceUnitName"));
         assertEquals("true", properties.get("hibernate.discriminator.ignore_explicit_for_joined"));
     }
-
-    @AfterEach
-    public void terminateRequestContext() {
-        Arc.container().requestContext().terminate();
-    }
-
 }

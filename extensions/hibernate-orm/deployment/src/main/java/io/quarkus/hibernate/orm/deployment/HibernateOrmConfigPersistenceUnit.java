@@ -231,7 +231,7 @@ public class HibernateOrmConfigPersistenceUnit {
                 multitenant.isPresent() ||
                 multitenantSchemaDatasource.isPresent() ||
                 fetch.isAnyPropertySet() ||
-                !useJdbcMetadataDefaults.get() ||
+                !useJdbcMetadataDefaults ||
                 discriminator.isAnyPropertySet();
     }
 
@@ -472,11 +472,11 @@ public class HibernateOrmConfigPersistenceUnit {
          * joined inheritance hierarchies. This setting allows these applications to maintain the legacy behavior of
          * DiscriminatorColumn annotations being ignored when paired with joined inheritance.
          */
-        @ConfigItem(defaultValue = "false")
-        public Optional<Boolean> ignoreExplicitForJoined;
+        @ConfigItem
+        public boolean ignoreExplicitForJoined;
 
         public boolean isAnyPropertySet() {
-            return ignoreExplicitForJoined.get();
+            return ignoreExplicitForJoined;
         }
     }
 }
