@@ -993,9 +993,8 @@ public final class HibernateOrmProcessor {
         }
 
         // JDBC Metadata
-        persistenceUnitConfig.useJdbcMetadataDefaults.ifPresent(
-                useJdbcMetadataDefaults -> descriptor.getProperties().setProperty(USE_JDBC_METADATA_DEFAULTS,
-                        useJdbcMetadataDefaults.toString()));
+        descriptor.getProperties().setProperty(USE_JDBC_METADATA_DEFAULTS,
+                String.valueOf(persistenceUnitConfig.useJdbcMetadataDefaults));
 
         // Discriminator Column
         descriptor.getProperties().setProperty(AvailableSettings.IGNORE_EXPLICIT_DISCRIMINATOR_COLUMNS_FOR_JOINED_SUBCLASS,

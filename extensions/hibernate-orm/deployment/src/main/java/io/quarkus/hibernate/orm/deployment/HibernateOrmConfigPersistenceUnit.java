@@ -211,7 +211,7 @@ public class HibernateOrmConfigPersistenceUnit {
      * In some specific cases the detection is not necessary and speeds up the application startup.
      */
     @ConfigItem(defaultValue = "true")
-    public Optional<Boolean> useJdbcMetadataDefaults;
+    public boolean useJdbcMetadataDefaults;
 
     public boolean isAnyPropertySet() {
         return datasource.isPresent() ||
